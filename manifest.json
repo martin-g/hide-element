@@ -1,11 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "WicketSource context menu",
+  "name": "HideElement context menu",
   "version": "0.1",
-  "description": "Context menu for WicketSource",
-   "icons": {
-    "16": "wicket.png"
-  },
+  "description": "Hides elements on the current page, like cookie bars",
   "background": {
     "scripts": ["contextMenu.js"]
   },
@@ -16,6 +13,6 @@
     }
   ],
   "permissions":  [
-    "http://*/*", "https://*/*", "contextMenus"
+    "http://*/*", "https://*/*", "contextMenus", "tabs"
   ]
 }

@@ -1,16 +1,14 @@
 document.addEventListener('mousedown', function (e) {
-  var ws = null;
-  var el = e.target;
-
   if (e.button != 2) {
     return;
   }
 
-  while (ws == null && el && el.getAttribute) {
-    ws = el.getAttribute("wicketsource");
-    el = el.parentNode;
-  }
+  document.querySelectorAll('[data-hide-element]')
+    .forEach(old => old.removeAttribute('data-hide-element'));
+
+  e.target.setAttribute('data-hide-element', 'true');
+
   chrome.extension.sendRequest({
-    wicketsource: ws
+    hideElement: e.target
   });
 });

@@ -1,34 +1,23 @@
 (function() {
   var menu = chrome.contextMenus.create({
-    title: "Wicket Source",
+    title: "Hide element",
     contexts: [ "all" ],
     enabled: false,
     onclick: function() {}
   });
 
   chrome.extension.onRequest.addListener(function (request) {
-    if (request.hasOwnProperty('wicketsource')) {
-      var ws = request.wicketsource;
-      if (ws == null) {
-        chrome.contextMenus.update(menu, {
-          enabled: false,
-          title: "Wicket Source"
-        });
-        return;
-      }
-      var idx = ws.indexOf(':');
-      if (idx > -1) {
-        ws = ws.substring(idx + 1);
-      }
-      ws = ws.replace(/\.java:/, ':');
+    if (request.hasOwnProperty('hideElement')) {
       chrome.contextMenus.update(menu, {
         enabled: true,
-        title: "Wicket Source - " + ws,
+        title: "Hide element",
         onclick: function () {
-          var ajax = new XMLHttpRequest();
-          var url = "http://localhost:9123/open?src=" + encodeURIComponent(request.wicketsource);
-          ajax.open("GET", url, true);
-          ajax.send();
+          chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            chrome.tabs.executeScript(
+                tabs[0].id,
+                {code: 'document.querySelector("[data-hide-element=true]").style.display="none";'});
+          });
+
         }
       });
     }
